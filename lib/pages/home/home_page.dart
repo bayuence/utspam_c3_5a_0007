@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:utspam_c3_5a_0007/pages/home/rental_page.dart';
+import 'package:utspam_c3_5a_0007/pages/home/booking_page.dart';
+import 'package:utspam_c3_5a_0007/pages/profile/profile_page.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -9,44 +12,46 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String username = '';
-  
-  @override
-   void initState() {
-    super.initState();
-    loadUsername();
-  }
+  int _selectedIndex = 0;
 
-  Future<void> loadUsername() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      username = prefs.getString('username') ?? '';
-    });
-  }
+  final List<Widget> _pages = [
+    Center(child: Text("Selamat datang di Home")),
+    RentalPage(),
+    BookingPage(),
+    ProfilePage(),
+  ];
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Home Page')),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Welcome, $username',
-              style: const TextStyle(fontSize: 24),
-            ),
-          const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () async {
-              final prefs = await SharedPreferences.getInstance();
-              await prefs.remove('username');
-              await prefs.remove('password');
-              Navigator.pushReplacementNamed(context, '/login');
-            },
-            child: const Text('Logout'),
-          ),  
+      appBar: AppBar(title: const Text('Car Rental Ence')
+      ),
+      body: _pages[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.directions_car),
+            label: 'Rental',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.book_online),
+            label: 'Booking',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
         ],
-        ),
       ),
     );
   }
