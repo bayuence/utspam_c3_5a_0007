@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:utspam_c3_5a_0007/pages/home_page.dart';
 import 'package:utspam_c3_5a_0007/pages/register_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -41,8 +42,11 @@ class _LoginPageState extends State<LoginPage> {
                 final prefs = await SharedPreferences.getInstance();
                 await prefs.setString('username', username);
                 await prefs.setString('password', password);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Login successful')),
+                await prefs.setBool('isLoggedIn', true);
+
+                Navigator.pushReplacement(
+                  context,
+                   MaterialPageRoute(builder: (context) => const HomePage()),
                 );
               }
             }, child: const Text('Login')),
