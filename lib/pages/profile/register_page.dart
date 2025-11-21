@@ -43,20 +43,24 @@ class _RegisterPageState extends State<RegisterPage> {
                   const SnackBar(content: Text('Input tidak boleh kosong')),
                 );
                 return;
-              } 
+              }
 
+              //simpan data user
               await SharedPrefService.saveUser(username, password);
 
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Register berhasil, silakan login')),
-              );
-              Navigator.pop(context);
-            },
-              child: const Text('Register')),
+              //notif
+              ScaffoldMessenger.of( context).showSnackBar(
+                const SnackBar(content: Text('Registrasi berhasil')),
+              );  
+
+              //langsung balik ke login
+              Navigator.pop(  context);
+              },
+              child: const Text('Register'),
+            ),
           ],
         ),
       ),
     );
   }
-}         
-        
+}

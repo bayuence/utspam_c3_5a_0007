@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:utspam_c3_5a_0007/pages/home/home_page.dart';
 import 'package:utspam_c3_5a_0007/pages/profile/register_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:utspam_c3_5a_0007/services/shared_pref_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -33,35 +33,40 @@ class _LoginPageState extends State<LoginPage> {
             ),
             ElevatedButton(
               onPressed: () async {
-              final inputUsername = _usernameController.text;
-              final inputPassword = _passwordController.text;
+              final inputUsername = _usernameController.text.trim();
+              final inputPassword = _passwordController.text.trim();
 
               if (inputUsername.isEmpty || inputPassword.isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Username dan Password tidak boleh kosong')),
                 );
                 return;
-              } 
+              }
 
-              final prefs = await SharedPreferences.getInstance();
-              final savedUsername = prefs.getString('saved_username');
-              final savedPassword = prefs.getString('saved_password');
-              
-              //validasi login
-              if (savedUsername == null || savedPassword == null) {
+              //ambil user yg terdaftar
+              final user = SharedPrefService.getUser();
+
+              //kalau belum pernah register
+              if (user == null) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('User tidak ditemukan, silakan register terlebih dahulu')),
                 );
                 return;
               }
 
+              final savedUsername = user['username'];
+              final savedPassword = user['password'];
+
+              //cocokin login
               if (inputUsername == savedUsername && inputPassword == savedPassword) {
-                prefs.setBool('isLoggedIn', true);
+                //set status login
+                await SharedPrefService.setLoginStatus(true);
 
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Login berhasil')),
                 );
-                
+
+                //pindah ke home
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => const HomePage()),
@@ -71,8 +76,18 @@ class _LoginPageState extends State<LoginPage> {
                   const SnackBar(content: Text('Username atau Password salah')),
                 );
               }
-            },
-             child: const Text('Login'),
+              },
+              child: const Text('Login'),
+        )
+            ,
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const RegisterPage()),
+                );
+              },
+              child: const Text('Belum punya akun? Register di sini'),
             ),
           ],
         ),
