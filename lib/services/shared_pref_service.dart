@@ -1,5 +1,4 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
 
 class SharedPrefService {
   static SharedPreferences? _prefs;
@@ -27,5 +26,15 @@ class SharedPrefService {
       };
     }
     return null;
+  }
+
+  //simpan status login
+  static Future<void> setLoginStatus(bool isLoggedIn) async {
+    await _prefs?.setBool('isLoggedIn', isLoggedIn);
+  }
+
+  //logout
+  static Future<void> logout() async {
+    await _prefs?.remove('isLoggedIn');
   }
 }
