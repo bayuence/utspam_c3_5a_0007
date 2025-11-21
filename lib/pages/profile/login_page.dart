@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:utspam_c3_5a_0007/pages/home_page.dart';
-import 'package:utspam_c3_5a_0007/pages/register_page.dart';
+import 'package:utspam_c3_5a_0007/pages/home/home_page.dart';
+import 'package:utspam_c3_5a_0007/pages/profile/register_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
