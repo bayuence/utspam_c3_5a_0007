@@ -9,52 +9,84 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();  
-
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     appBar: AppBar(title: const Text('Register')),
+      appBar: AppBar(title: const Text('Register')),
       body: Padding(
         padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [   
+        child: ListView(
+          children: [
+            TextField(
+              controller: _nameController,
+              decoration: const InputDecoration(labelText: 'Nama Lengkap'),
+            ),
+            const SizedBox(height: 20),
+
             TextField(
               controller: _usernameController,
               decoration: const InputDecoration(labelText: 'Username'),
             ),
             const SizedBox(height: 20),
+
+            TextField(
+              controller: _emailController,
+              decoration: const InputDecoration(labelText: 'Email'),
+            ),
+            const SizedBox(height: 20),
+
+            TextField(
+              controller: _phoneController,
+              decoration: const InputDecoration(labelText: 'Nomor HP'),
+            ),
+            const SizedBox(height: 20),
+
             TextField(
               controller: _passwordController,
               decoration: const InputDecoration(labelText: 'Password'),
               obscureText: true,
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 30),
 
             ElevatedButton(
               onPressed: () async {
-              final username = _usernameController.text.trim();
-              final password = _passwordController.text.trim();
-              if (username.isEmpty || password.isEmpty) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Input tidak boleh kosong')),
+                final name = _nameController.text.trim();
+                final username = _usernameController.text.trim();
+                final email = _emailController.text.trim();
+                final phone = _phoneController.text.trim();
+                final password = _passwordController.text.trim();
+
+                if (name.isEmpty ||
+                    username.isEmpty ||
+                    email.isEmpty ||
+                    phone.isEmpty ||
+                    password.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Semua field wajib diisi')),
+                  );
+                  return;
+                }
+
+                
+                await SharedPrefService.saveUser(
+                  name: name,
+                  username: username,
+                  email: email,
+                  phone: phone,
+                  password: password,
                 );
-                return;
-              }
 
-              //simpan data user
-              await SharedPrefService.saveUser(username, password);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Registrasi berhasil')),
+                );
 
-              //notif
-              ScaffoldMessenger.of( context).showSnackBar(
-                const SnackBar(content: Text('Registrasi berhasil')),
-              );  
-
-              //langsung balik ke login
-              Navigator.pop(  context);
+                Navigator.pop(context); // kembali ke login
               },
               child: const Text('Register'),
             ),
