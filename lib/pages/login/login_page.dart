@@ -17,69 +17,86 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Login Page')),
-      body: Center(
+      appBar: AppBar(title: const Text('Login')),
+      
+      body: Padding(
+        padding: const EdgeInsets.all(20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [   
+          children: [
+
+            // Input Username
             TextField(
               controller: _usernameController,
-              decoration: const InputDecoration(labelText: 'Username'),
+              decoration: const InputDecoration(
+                labelText: "Username",
+              ),
             ),
+            const SizedBox(height: 20),
+
+            // Input Password
             TextField(
               controller: _passwordController,
-              decoration: const InputDecoration(labelText: 'Password'),
+              decoration: const InputDecoration(
+                labelText: "Password",
+              ),
               obscureText: true,
             ),
+            const SizedBox(height: 40),
+
+            // Tombol Login
             ElevatedButton(
               onPressed: () async {
-              final inputUsername = _usernameController.text.trim();
-              final inputPassword = _passwordController.text.trim();
+                final inputUsername = _usernameController.text.trim();
+                final inputPassword = _passwordController.text.trim();
 
-              if (inputUsername.isEmpty || inputPassword.isEmpty) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Username dan Password tidak boleh kosong')),
-                );
-                return;
-              }
+                if (inputUsername.isEmpty || inputPassword.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Semua field wajib diisi")),
+                  );
+                  return;
+                }
 
-              //ambil user yg terdaftar
-              final user = SharedPrefService.getUser();
+                // ambil user tersimpan di SharedPref
+                final user = SharedPrefService.getUser();
 
-              //kalau belum pernah register
-              if (user == null) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('User tidak ditemukan, silakan register terlebih dahulu')),
-                );
-                return;
-              }
+                if (user == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Belum ada user. Silakan register")),
+                  );
+                  return;
+                }
 
-              final savedUsername = user['username'];
-              final savedPassword = user['password'];
+                final savedUsername = user['username'];
+                final savedPassword = user['password'];
 
-              //cocokin login
-              if (inputUsername == savedUsername && inputPassword == savedPassword) {
-                //set status login
-                await SharedPrefService.setLoginStatus(true);
+                if (inputUsername == savedUsername &&
+                    inputPassword == savedPassword) {
 
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Login berhasil')),
-                );
+                  // simpan status login
+                  await SharedPrefService.setLoginStatus(true);
 
-                //pindah ke home
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HomePage()),
-                );
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Username atau Password salah')),
-                );
-              }
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Login berhasil")),
+                  );
+
+                  // pindah ke HomePage
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const HomePage()),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Username atau Password salah")),
+                  );
+                }
               },
-              child: const Text('Login'),
-        )
-            ,
+              child: const Text("Login"),
+            ),
+
+            const SizedBox(height: 20),
+
+            // Tombol pergi ke Register
             TextButton(
               onPressed: () {
                 Navigator.push(
@@ -87,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                   MaterialPageRoute(builder: (context) => const RegisterPage()),
                 );
               },
-              child: const Text('Belum punya akun? Register di sini'),
+              child: const Text("Belum punya akun? Register"),
             ),
           ],
         ),

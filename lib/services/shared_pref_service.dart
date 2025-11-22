@@ -7,14 +7,14 @@ class SharedPrefService {
     _prefs = await SharedPreferences.getInstance();
   }
 
-  //simpan data user
-  static Future<void> saveUser({
-    required String name,
-    required String username,
-    required String email,
-    required String phone,
-    required String password,
-  }) async {
+  // SIMPAN DATA USER
+  static Future<void> saveUser(
+      String name,
+      String username,
+      String email,
+      String phone,
+      String password) async 
+  {
     await _prefs?.setString('user_name', name);
     await _prefs?.setString('user_username', username);
     await _prefs?.setString('user_email', email);
@@ -22,7 +22,7 @@ class SharedPrefService {
     await _prefs?.setString('user_password', password);
   }
 
-  //ambil data user
+  // AMBIL DATA USER
   static Map<String, String>? getUser() {
     final name = _prefs?.getString('user_name');
     final username = _prefs?.getString('user_username');
