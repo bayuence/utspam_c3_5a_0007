@@ -53,4 +53,18 @@ class SharedPrefService {
   static Future<void> logout() async {
     await _prefs?.remove('isLoggedIn');
   }
+
+  // SIMPAN DATA BOOKING
+  static Future<void> saveBooking({
+  required String nama,
+  required String mobil,
+  required String mulai,
+  required String selesai,
+}) async {
+  await _prefs?.setString('booking_nama', nama);
+  await _prefs?.setString('booking_mobil', mobil);
+  await _prefs?.setString('booking_mulai', mulai);
+  await _prefs?.setString('booking_selesai', selesai);
+}
+
 }
