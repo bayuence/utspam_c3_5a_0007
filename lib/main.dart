@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:utspam_c3_5a_0007/services/shared_pref_service.dart';
 import 'package:utspam_c3_5a_0007/pages/home/home_page.dart';
 import 'package:utspam_c3_5a_0007/pages/login/login_page.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await SharedPrefService.init();
 
   final prefs = await SharedPreferences.getInstance();
   final bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
@@ -19,8 +22,6 @@ class CarRentalEnce extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: isLoggedIn ? const HomePage() : const LoginPage(),
-    );
+    return MaterialApp(home: isLoggedIn ? const HomePage() : const LoginPage());
   }
 }

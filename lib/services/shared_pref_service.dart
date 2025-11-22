@@ -3,37 +3,53 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SharedPrefService {
   static SharedPreferences? _prefs;
 
-  //dipanggil di main
   static Future init() async {
     _prefs = await SharedPreferences.getInstance();
   }
 
-  //simpan data register
-  static Future<void> saveUser(String username, String password) async {
-    await _prefs?.setString('saved_username', username);
-    await _prefs?.setString('saved_password', password); 
+  //simpan data user
+  static Future<void> saveUser({
+    required String name,
+    required String username,
+    required String email,
+    required String phone,
+    required String password,
+  }) async {
+    await _prefs?.setString('user_name', name);
+    await _prefs?.setString('user_username', username);
+    await _prefs?.setString('user_email', email);
+    await _prefs?.setString('user_phone', phone);
+    await _prefs?.setString('user_password', password);
   }
 
-  //ambil data register
+  //ambil data user
   static Map<String, String>? getUser() {
-    final username = _prefs?.getString('saved_username');
-    final password = _prefs?.getString('saved_password');
+    final name = _prefs?.getString('user_name');
+    final username = _prefs?.getString('user_username');
+    final email = _prefs?.getString('user_email');
+    final phone = _prefs?.getString('user_phone');
+    final password = _prefs?.getString('user_password');
 
-    if (username != null && password != null) {
+    if (name != null &&
+        username != null &&
+        email != null &&
+        phone != null &&
+        password != null) {
       return {
+        'name': name,
         'username': username,
+        'email': email,
+        'phone': phone,
         'password': password,
       };
     }
     return null;
   }
 
-  //simpan status login
-  static Future<void> setLoginStatus(bool isLoggedIn) async {
-    await _prefs?.setBool('isLoggedIn', isLoggedIn);
+  static Future<void> setLoginStatus(bool value) async {
+    await _prefs?.setBool('isLoggedIn', value);
   }
 
-  //logout
   static Future<void> logout() async {
     await _prefs?.remove('isLoggedIn');
   }
