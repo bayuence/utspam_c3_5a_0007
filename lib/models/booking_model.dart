@@ -1,45 +1,37 @@
 class BookingModel {
-  final int bookingId;
-  final int carId;
-  final String username;
-  final int durasiSewa;
+  final String namaPenyewa;
+  final String mobil;
+  final String tanggalSewa;
+  final String tanggalKembali;
   final int totalHarga;
-  final String tanggal;
-  final bool selesai;
 
   BookingModel({
-    required this.bookingId,
-    required this.carId,
-    required this.username,
-    required this.durasiSewa,
+    required this.namaPenyewa,
+    required this.mobil,
+    required this.tanggalSewa,
+    required this.tanggalKembali,
     required this.totalHarga,
-    required this.tanggal,
-    required this.selesai,
   });
 
-  //ubah booking ke map
+  // simpan ke SharedPref
   Map<String, dynamic> toJson() {
     return {
-      'bookingId': bookingId,
-      'carId': carId,
-      'username': username,
-      'durasiSewa': durasiSewa,
-      'totalHarga': totalHarga,
-      'tanggal': tanggal,
-      'selesai': selesai,
+      "namaPenyewa": namaPenyewa,
+      "mobil": mobil,
+      "tanggalSewa": tanggalSewa,
+      "tanggalKembali": tanggalKembali,
+      "totalHarga": totalHarga,
     };
   }
 
-  //ubah json ke booking model
+  // ambil dari SharedPref
   factory BookingModel.fromJson(Map<String, dynamic> json) {
     return BookingModel(
-      bookingId: json['bookingId'],
-      carId: json['carId'],
-      username: json['username'],
-      durasiSewa: json['durasiSewa'],
-      totalHarga: json['totalHarga'],
-      tanggal: json['tanggal'],
-      selesai: json['selesai'],
+      namaPenyewa: json["namaPenyewa"],
+      mobil: json["mobil"],
+      tanggalSewa: json["tanggalSewa"],
+      tanggalKembali: json["tanggalKembali"],
+      totalHarga: json["totalHarga"],
     );
   }
 }
