@@ -20,7 +20,7 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
-        title: const Text("Register"),
+        title: const Text("Kembali untuk Login"),
         elevation: 0,
       ),
 
