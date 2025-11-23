@@ -1,6 +1,6 @@
 import 'package:utspam_c3_5a_0007/pages/booking/car_list.dart';
 import 'package:utspam_c3_5a_0007/pages/booking/detail_sewa.dart';
-//import 'package:utspam_c3_5a_0007/pages/booking/edit_sewa.dart';
+import 'package:utspam_c3_5a_0007/pages/booking/edit_sewa.dart';
 import 'package:utspam_c3_5a_0007/pages/booking/from_sewa.dart';
 import 'package:utspam_c3_5a_0007/pages/booking/history.dart';
 import 'package:utspam_c3_5a_0007/pages/home/home.dart';
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         '/profil': (context) => const ProfilPage(),
         '/formsewa': (context) => const FormSewaPage(),
         '/detailsewa': (context) => const DetailSewaPage(),
-        //'/editsewa': (context) => const EditSewaPage(),
+        '/editsewa': (context) => const EditSewaPage(),
       },
       onUnknownRoute: (settings) {
         return MaterialPageRoute(
